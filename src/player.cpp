@@ -1638,6 +1638,15 @@ void Player::addManaSpent(uint64_t amount)
 	}
 }
 
+PlayerVocation* Player::getPlayerVocationInList(uint16_t vocationId) {
+	for (auto& vocation : vocations) {
+        if (vocation.vocationId == vocationId) {
+			return &vocation;
+        }
+    }
+    return nullptr;
+}
+
 void Player::addExperience(Creature* source, uint64_t exp, bool sendText/* = false*/)
 {
 	uint64_t currLevelExp = Player::getExpForLevel(level);
@@ -1695,6 +1704,7 @@ void Player::addExperience(Creature* source, uint64_t exp, bool sendText/* = fal
 		}
 	}
 
+	PlayerVocation* playerVoc = getPlayerVocationInList(getVocationId());
 	if (prevLevel != level) {
 		health = healthMax;
 		mana = manaMax;
@@ -1704,6 +1714,10 @@ void Player::addExperience(Creature* source, uint64_t exp, bool sendText/* = fal
 
 		g_game.changeSpeed(this, 0);
 		g_game.addCreatureHealth(this);
+
+		if (playerVoc != nullptr) {
+			playerVoc->level = level;
+		}
 
 		if (party) {
 			party->updateSharedExperience();
@@ -1772,6 +1786,7 @@ void Player::removeExperience(uint64_t exp, bool sendText/* = false*/)
 		currLevelExp = Player::getExpForLevel(level);
 	}
 
+	PlayerVocation* playerVoc = getPlayerVocationInList(getVocationId());
 	if (oldLevel != level) {
 		health = healthMax;
 		mana = manaMax;
@@ -1781,6 +1796,10 @@ void Player::removeExperience(uint64_t exp, bool sendText/* = false*/)
 
 		g_game.changeSpeed(this, 0);
 		g_game.addCreatureHealth(this);
+
+		if (playerVoc != nullptr) {
+			playerVoc->level = level;
+		}
 
 		if (party) {
 			party->updateSharedExperience();
@@ -3749,6 +3768,77 @@ bool Player::removeOutfitAddon(uint16_t lookType, uint8_t addons)
 		}
 	}
 	return false;
+}
+
+void Player::addVocation(uint16_t vocationId, uint32_t level, uint64_t experience)
+{
+	if (hasVocation(vocationId)) {
+		return;
+	}
+	PlayerVocation voc(vocationId, level, experience);
+	vocations.push_back(voc);
+}
+void Player::removeVocation(uint16_t vocId)
+{
+    for (auto it = vocations.begin(); it != vocations.end(); ++it) {
+        if (it->vocationId == vocId) {
+            vocations.erase(it);
+            return;
+        }
+    }
+}
+bool Player::hasVocation(uint16_t vocId)
+{
+	for (const PlayerVocation& vocation : vocations) {
+		if (vocation.vocationId == vocId) {
+			return true;
+		}
+	}
+	return false;
+}
+bool Player::changeVocation(uint16_t vocId) 
+{
+	if (hasVocation(vocId)) {
+		for (auto it = vocations.begin(); it != vocations.end(); ++it) {
+			if (it->vocationId == vocId) {
+				uint32_t oldLevel = level;
+				experience = it->experience;
+				level = it->level;
+				Vocation* newVoc = g_vocations.getVocation(it->vocationId);
+
+				healthMax = 0;
+				manaMax = 0;
+				int32_t it = 0;
+				while (it <= level) {
+					++it;
+					healthMax = std::max<int32_t>(0, healthMax + newVoc->getHPGain());
+					manaMax = std::max<int32_t>(0, manaMax + newVoc->getManaGain());
+				}
+				
+				setVocation(vocId);
+				health = getMaxHealth();
+				mana = getMaxMana();
+				sendSkills();
+				sendStats();
+				updateBaseSpeed();
+				setBaseSpeed(getBaseSpeed());
+				g_game.changeSpeed(this, 0);
+				g_game.addCreatureHealth(this);
+
+				const Outfit* outfit = Outfits::getInstance()->getOutfitByLookType(sex, newVoc->getOutfit());
+				if (!outfit) {
+					return true;
+				}
+				Outfit_t newOutfit;
+				newOutfit.lookType = outfit->lookType;
+				defaultOutfit = newOutfit;
+				g_game.internalCreatureChangeOutfit(this, newOutfit);
+				// g_game.removeCreature(player, true);
+				return true;
+			}
+    	}
+	}
+	return true;
 }
 
 bool Player::getOutfitAddons(const Outfit& outfit, uint8_t& addons) const

@@ -899,8 +899,14 @@ class LuaScriptInterface
 		static int luaPlayerGetItemCount(lua_State* L);
 		static int luaPlayerGetItemById(lua_State* L);
 
-		static int luaPlayerGetVocation(lua_State* L);
-		static int luaPlayerSetVocation(lua_State* L);
+		// static int luaPlayerGetVocation(lua_State* L);
+		// static int luaPlayerSetVocation(lua_State* L);
+		static int luaPlayerHasVocation(lua_State* L);
+		static int luaPlayerAddVocation(lua_State* L);
+		static int luaPlayerRemoveVocation(lua_State* L);
+		static int luaPlayerChangeVocation(lua_State* L);
+		static int luaPlayerGetVocationList(lua_State* L);
+		static int luaPlayerGetCurrentVocation(lua_State* L);
 
 		static int luaPlayerGetSex(lua_State* L);
 		static int luaPlayerSetSex(lua_State* L);
@@ -1090,6 +1096,7 @@ class LuaScriptInterface
 		static int luaVocationGetClientId(lua_State* L);
 		static int luaVocationGetName(lua_State* L);
 		static int luaVocationGetDescription(lua_State* L);
+		static int luaVocationGetOutfit(lua_State* L);
 
 		static int luaVocationGetRequiredSkillTries(lua_State* L);
 		static int luaVocationGetRequiredManaSpent(lua_State* L);

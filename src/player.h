@@ -99,6 +99,13 @@ struct OutfitEntry {
 	uint8_t addons;
 };
 
+struct PlayerVocation {
+    PlayerVocation(uint16_t id, uint32_t lvl, uint64_t exp) : vocationId(id), level(lvl), experience(exp) {}
+    uint16_t vocationId;
+    uint32_t level;
+	uint64_t experience;
+};
+
 struct Skill {
 	uint64_t tries = 0;
 	uint16_t level = 10;
@@ -423,6 +430,11 @@ class Player final : public Creature, public Cylinder
 		void setPremiumDays(int32_t v);
 
 		uint16_t getHelpers() const;
+
+		bool changeVocation(uint16_t vocId);
+		void addVocation(uint16_t vocationId, uint32_t level, uint64_t experience);
+		void removeVocation(uint16_t vocId);
+		bool hasVocation(uint16_t vocId);
 
 		bool setVocation(uint16_t vocId);
 		uint16_t getVocationId() const {
@@ -1209,6 +1221,8 @@ class Player final : public Creature, public Cylinder
 		void checkTradeState(const Item* item);
 		bool hasCapacity(const Item* item, uint32_t count) const;
 
+		PlayerVocation* getPlayerVocationInList(uint16_t vocationId);
+
 		void gainExperience(uint64_t exp, Creature* source);
 		void addExperience(Creature* source, uint64_t exp, bool sendText = false);
 		void removeExperience(uint64_t exp, bool sendText = false);
@@ -1261,6 +1275,7 @@ class Player final : public Creature, public Cylinder
 		std::map<uint32_t, Reward*> rewardMap;
 
 		std::vector<OutfitEntry> outfits;
+		std::vector<PlayerVocation> vocations;
 		GuildWarList guildWarList;
 
 		std::list<ShopInfo> shopItemList;

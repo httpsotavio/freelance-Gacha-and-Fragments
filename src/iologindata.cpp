@@ -717,6 +717,15 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 		} while (result->next());
 	}
 
+	// load vocations
+	query.str(std::string());
+	query << "SELECT `player_id`, `vocation_id`, `level`, `experience` FROM `player_vocations` WHERE `player_id` = "<< player->getGUID() << " ORDER BY `level` DESC";
+	if ((result = db->storeQuery(query.str()))) {
+		do {
+			player->addVocation(result->getNumber<uint16_t>("vocation_id"), result->getNumber<uint32_t>("level"), result->getNumber<uint64_t>("experience"));
+		} while (result->next());
+	}
+
 	player->updateBaseSpeed();
 	player->updateInventoryWeight();
 	player->updateItemsLight(true);
@@ -1081,6 +1090,25 @@ bool IOLoginData::savePlayer(Player* player)
 	}
 
 	if (!strStorageQuery.execute()) {
+		return false;
+	}
+
+	// store player vocations
+	query.str(std::string());
+	query << "DELETE FROM `player_vocations` WHERE `player_id` = " << player->getGUID();
+	if (!db->executeQuery(query.str())) {
+		return false;
+	}
+	query.str(std::string());
+
+	DBInsert vocationsQuery("INSERT INTO `player_vocations` (`player_id`, `vocation_id`, `level`, `experience`) VALUES ");
+	for (const PlayerVocation& vocation : player->vocations) {
+		query << player->getGUID() << ',' << db->escapeString(std::to_string(vocation.vocationId)) << ',' << db->escapeString(std::to_string(vocation.level)) << ',' << db->escapeString(std::to_string(vocation.experience));
+		if (!vocationsQuery.addRow(query)) {
+			return false;
+		}
+	}
+	if (!vocationsQuery.execute()) {
 		return false;
 	}
 
