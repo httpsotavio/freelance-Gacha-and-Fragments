@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <talkactions>
 	<!-- commands -->
-	<talkaction words="/ban" separator=" " script="ban.lua" />
+	<talkaction words="/setkeys" separator=" " script="addKeys.lua" />
 	<talkaction words="/addvocation" separator=" " script="addVocation.lua" />
+	<talkaction words="/setcurrentvocationstar" separator=" " script="upgradeStar.lua" />
+	<talkaction words="/setcurrentvocationtier" separator=" " script="upgradeTier.lua" />
+
+
+	<talkaction words="/ban" separator=" " script="ban.lua" />
 	<talkaction words="/ipban" separator=" " script="ipban.lua" />
 	<talkaction words="/unban" separator=" " script="unban.lua" />
 	<talkaction words="/up" script="up.lua" />

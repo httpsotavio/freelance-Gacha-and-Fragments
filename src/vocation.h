@@ -90,6 +90,10 @@ class Vocation
 			return fromVocation;
 		}
 
+		tier_t getBaseTier() {
+			return baseTier;
+		}
+
 		float meleeDamageMultiplier = 1.0f;
 		float distDamageMultiplier = 1.0f;
 		float defenseMultiplier = 1.0f;
@@ -124,6 +128,8 @@ class Vocation
 
 		uint8_t soulMax = 100;
 		uint8_t clientId = 0;
+
+		tier_t baseTier = TIER_NONE;
 
 		static uint32_t skillBase[SKILL_LAST + 1];
 };

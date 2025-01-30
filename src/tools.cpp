@@ -942,6 +942,23 @@ uint8_t clientFluidToServer(uint8_t clientFluid)
 	return clientToServerFluidMap[clientFluid];
 }
 
+tier_t stringToTier(const std::string& str)
+{
+	if (str == "bronze") {
+		return TIER_BRONZE;
+	}	
+	if (str == "silver") {
+		return TIER_SILVER;
+	}	
+	if (str == "gold") {
+		return TIER_GOLD;
+	}	
+	if (str == "diamond") {
+		return TIER_DIAMOND;
+	}
+	return TIER_NONE;
+}
+
 itemAttrTypes stringToItemAttribute(const std::string& str)
 {
 	if (str == "aid") {

@@ -1,12 +1,158 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\vc14\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A10F9657-129F-0FEF-14CB-CEE0B0E5AA3E}|theforgottenserver.vcxproj|C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A10F9657-129F-0FEF-14CB-CEE0B0E5AA3E}|theforgottenserver.vcxproj|C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A10F9657-129F-0FEF-14CB-CEE0B0E5AA3E}|theforgottenserver.vcxproj|C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\tile.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A10F9657-129F-0FEF-14CB-CEE0B0E5AA3E}|theforgottenserver.vcxproj|C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\tools.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A10F9657-129F-0FEF-14CB-CEE0B0E5AA3E}|theforgottenserver.vcxproj|C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\vocation.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A10F9657-129F-0FEF-14CB-CEE0B0E5AA3E}|theforgottenserver.vcxproj|C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\luascript.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A10F9657-129F-0FEF-14CB-CEE0B0E5AA3E}|theforgottenserver.vcxproj|C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\luascript.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A10F9657-129F-0FEF-14CB-CEE0B0E5AA3E}|theforgottenserver.vcxproj|C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\iologindata.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A10F9657-129F-0FEF-14CB-CEE0B0E5AA3E}|theforgottenserver.vcxproj|C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\database.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "player.h",
+              "DocumentMoniker": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\player.h",
+              "RelativeDocumentMoniker": "..\\src\\player.h",
+              "ToolTip": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\player.h",
+              "RelativeToolTip": "..\\src\\player.h",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-16T04:53:08.38Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "tools.h",
+              "DocumentMoniker": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\tools.h",
+              "RelativeDocumentMoniker": "..\\src\\tools.h",
+              "ToolTip": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\tools.h",
+              "RelativeToolTip": "..\\src\\tools.h",
+              "ViewState": "AgIAABAAAAAAAAAAAAAYwB0AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-29T23:41:01.954Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "tile.h",
+              "DocumentMoniker": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\tile.h",
+              "RelativeDocumentMoniker": "..\\src\\tile.h",
+              "ToolTip": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\tile.h",
+              "RelativeToolTip": "..\\src\\tile.h",
+              "ViewState": "AgIAANAAAAAAAAAAAAAowNYAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-29T23:33:45.808Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "vocation.h",
+              "DocumentMoniker": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\vocation.h",
+              "RelativeDocumentMoniker": "..\\src\\vocation.h",
+              "ToolTip": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\vocation.h",
+              "RelativeToolTip": "..\\src\\vocation.h",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAWwGIAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-29T17:02:10.357Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "player.cpp",
+              "DocumentMoniker": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\player.cpp",
+              "RelativeDocumentMoniker": "..\\src\\player.cpp",
+              "ToolTip": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\player.cpp",
+              "RelativeToolTip": "..\\src\\player.cpp",
+              "ViewState": "AgIAAEUPAAAAAAAAAAAjwFUPAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-25T07:19:45.028Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "luascript.h",
+              "DocumentMoniker": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\luascript.h",
+              "RelativeDocumentMoniker": "..\\src\\luascript.h",
+              "ToolTip": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\luascript.h",
+              "RelativeToolTip": "..\\src\\luascript.h",
+              "ViewState": "AgIAAHwDAAAAAAAAAAAswJIDAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-25T07:17:47.271Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "luascript.cpp",
+              "DocumentMoniker": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\luascript.cpp",
+              "RelativeDocumentMoniker": "..\\src\\luascript.cpp",
+              "ToolTip": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\luascript.cpp",
+              "RelativeToolTip": "..\\src\\luascript.cpp",
+              "ViewState": "AgIAAK8IAAAAAAAAAAAWwLUIAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-17T04:25:40.074Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "database.h",
+              "DocumentMoniker": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\database.h",
+              "RelativeDocumentMoniker": "..\\src\\database.h",
+              "ToolTip": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\database.h",
+              "RelativeToolTip": "..\\src\\database.h",
+              "ViewState": "AgIAAJsAAAAAAAAAAAAWwKoAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-16T04:59:41.991Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "iologindata.cpp",
+              "DocumentMoniker": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\iologindata.cpp",
+              "RelativeDocumentMoniker": "..\\src\\iologindata.cpp",
+              "ToolTip": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\iologindata.cpp",
+              "RelativeToolTip": "..\\src\\iologindata.cpp",
+              "ViewState": "AgIAAMUCAAAAAAAAAAAWwNoCAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-16T04:55:25.625Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

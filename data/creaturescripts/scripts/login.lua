@@ -33,5 +33,6 @@ function onLogin(player)
 	player:registerEvent("PlayerDeath")
 	player:registerEvent("DropLoot")
 	player:registerEvent("ChangeCharacterExtended")
+	player:registerEvent("GachaExtended")
 	return true
 end

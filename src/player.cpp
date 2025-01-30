@@ -3770,14 +3770,15 @@ bool Player::removeOutfitAddon(uint16_t lookType, uint8_t addons)
 	return false;
 }
 
-void Player::addVocation(uint16_t vocationId, uint32_t level, uint64_t experience)
+void Player::addVocation(uint16_t vocationId, uint32_t level, uint64_t experience, uint16_t star, tier_t tier, uint32_t fragments)
 {
 	if (hasVocation(vocationId)) {
 		return;
 	}
-	PlayerVocation voc(vocationId, level, experience);
+	PlayerVocation voc(vocationId, star, level, experience, tier, fragments);
 	vocations.push_back(voc);
 }
+
 void Player::removeVocation(uint16_t vocId)
 {
     for (auto it = vocations.begin(); it != vocations.end(); ++it) {
@@ -3787,7 +3788,18 @@ void Player::removeVocation(uint16_t vocId)
         }
     }
 }
+
 bool Player::hasVocation(uint16_t vocId)
+{
+	for (const PlayerVocation& vocation : vocations) {
+		if (vocation.vocationId == vocId && vocation.level > 0) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Player::vocationExistsInList(uint16_t vocId)
 {
 	for (const PlayerVocation& vocation : vocations) {
 		if (vocation.vocationId == vocId) {
@@ -3796,15 +3808,17 @@ bool Player::hasVocation(uint16_t vocId)
 	}
 	return false;
 }
+
 bool Player::changeVocation(uint16_t vocId) 
 {
 	if (hasVocation(vocId)) {
 		for (auto it = vocations.begin(); it != vocations.end(); ++it) {
 			if (it->vocationId == vocId) {
-				uint32_t oldLevel = level;
 				experience = it->experience;
 				level = it->level;
 				Vocation* newVoc = g_vocations.getVocation(it->vocationId);
+				star = it->star;
+				tier = it->tier;
 
 				healthMax = 0;
 				manaMax = 0;
@@ -3839,6 +3853,86 @@ bool Player::changeVocation(uint16_t vocId)
     	}
 	}
 	return true;
+}
+
+uint16_t Player::getVocationStar(uint16_t vocId) 
+{
+	for (auto it = vocations.begin(); it != vocations.end(); ++it) {
+		if (it->vocationId == vocId) {
+			return it->star;
+		}
+    }
+	return 0;
+}
+
+bool Player::setVocationStar(uint16_t vocId, uint16_t stars) 
+{
+	for (auto it = vocations.begin(); it != vocations.end(); ++it) {
+		if (it->vocationId == vocId) {
+			it->star = stars;
+			return true;
+		}
+    }
+	return false;
+}
+
+bool Player::setVocationTier(uint16_t vocId, tier_t tier) 
+{
+	for (auto it = vocations.begin(); it != vocations.end(); ++it) {
+		if (it->vocationId == vocId) {
+			it->tier = tier;
+			return true;
+		}
+    }
+	return false;
+}
+
+tier_t Player::getVocationTier(uint16_t vocId) 
+{
+	for (auto it = vocations.begin(); it != vocations.end(); ++it) {
+		if (it->vocationId == vocId) {
+			return it->tier;
+		}
+    }
+	return TIER_NONE;
+}
+
+uint32_t Player::getVocationFragments(uint16_t vocId) 
+{
+	for (auto it = vocations.begin(); it != vocations.end(); ++it) {
+		if (it->vocationId == vocId) {
+			return it->fragments;
+		}
+    }
+	return 0;
+}
+
+bool Player::setVocationFragments(uint16_t vocId, uint32_t frags) 
+{
+	if (!vocationExistsInList(vocId)) {
+		addVocation(vocId, 0, 0, 0, TIER_NONE, 0);
+	}
+
+	for (auto it = vocations.begin(); it != vocations.end(); ++it) {
+		if (it->vocationId == vocId) {
+			it->fragments = frags;
+			if (it->fragments >= 100 && !hasVocation(vocId)) {
+				Vocation* voc = g_vocations.getVocation(it->vocationId);
+				if (voc) {
+					it->level = 1;
+					it->tier = voc->getBaseTier();
+					it->star = 1;
+					it->experience = 1;
+					it->fragments = 0;
+				}
+			}
+			return true;
+		}
+    }
+
+
+	
+	return false;
 }
 
 bool Player::getOutfitAddons(const Outfit& outfit, uint8_t& addons) const

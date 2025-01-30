@@ -4,3 +4,5 @@ dofile('data/lib/core/json.lua')
 
 -- Compatibility library for our old Lua API
 dofile('data/lib/compat/compat.lua')
+
+dofile('data/lib/core/VocationsConfig.lua')

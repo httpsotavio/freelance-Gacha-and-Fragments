@@ -100,10 +100,14 @@ struct OutfitEntry {
 };
 
 struct PlayerVocation {
-    PlayerVocation(uint16_t id, uint32_t lvl, uint64_t exp) : vocationId(id), level(lvl), experience(exp) {}
+    PlayerVocation(uint16_t id, uint16_t st, uint32_t lvl, uint64_t exp, tier_t t, uint32_t frags) : vocationId(id), star(st), level(lvl), fragments(frags), experience(exp), tier(t) {}
     uint16_t vocationId;
+    uint16_t star;
     uint32_t level;
+    uint32_t fragments = 0;
 	uint64_t experience;
+	
+    tier_t tier;
 };
 
 struct Skill {
@@ -431,10 +435,20 @@ class Player final : public Creature, public Cylinder
 
 		uint16_t getHelpers() const;
 
+		uint16_t getVocationStar(uint16_t vocId);
+		bool setVocationStar(uint16_t vocId, uint16_t star);
+
+		tier_t getVocationTier(uint16_t vocId);
+
+		uint32_t getVocationFragments(uint16_t vocId);
+		bool setVocationFragments(uint16_t vocId, uint32_t frags);
+
+		bool setVocationTier(uint16_t vocId, tier_t tier);
 		bool changeVocation(uint16_t vocId);
-		void addVocation(uint16_t vocationId, uint32_t level, uint64_t experience);
+		void addVocation(uint16_t vocationId, uint32_t level, uint64_t experience, uint16_t star, tier_t tier, uint32_t fragments = 0);
 		void removeVocation(uint16_t vocId);
 		bool hasVocation(uint16_t vocId);
+		bool vocationExistsInList(uint16_t vocId);
 
 		bool setVocation(uint16_t vocId);
 		uint16_t getVocationId() const {
@@ -1296,6 +1310,8 @@ class Player final : public Creature, public Cylinder
 		time_t lastLoginSaved = 0;
 		time_t lastLogout = 0;
 
+		uint16_t star = 0;
+		tier_t tier = TIER_NONE;
 		uint64_t experience = 0;
 		uint64_t manaSpent = 0;
 		uint64_t lastAttack = 0;

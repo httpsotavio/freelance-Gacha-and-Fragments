@@ -36,4 +36,19 @@ function onStartup()
 		until not result.next(resultId)
 		result.free(resultId)
 	end
+
+
+	local t = os.time()
+	local date = os.date("*t", t)
+	local weeklyTime = os.time() - configManager.getNumber(configKeys.FRAG_SECOND_LIMIT_TIME)
+	local monthlyTime = os.time() - configManager.getNumber(configKeys.FRAG_THIRD_LIMIT_TIME)
+	
+
+	if (date.wday == 2) then -- segunda
+		db.query("UPDATE player_deaths SET unjustified = 0 WHERE unjustified = 1 AND time < " .. weeklyTime)
+	end
+	
+	if (date.day == 1) then -- primeiro dia do mes
+		db.query("UPDATE player_deaths SET unjustified = 0 WHERE unjustified = 1 AND time < " .. monthlyTime)
+	end
 end

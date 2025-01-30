@@ -2231,6 +2231,13 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Player", "changeVocation", LuaScriptInterface::luaPlayerChangeVocation);
 	registerMethod("Player", "getVocationList", LuaScriptInterface::luaPlayerGetVocationList);
 	registerMethod("Player", "getCurrentVocation", LuaScriptInterface::luaPlayerGetCurrentVocation);
+	registerMethod("Player", "getVocationStar", LuaScriptInterface::luaPlayerGetVocationStar);
+	registerMethod("Player", "setVocationStar", LuaScriptInterface::luaPlayerSetVocationStar);
+	registerMethod("Player", "getVocationTier", LuaScriptInterface::luaPlayerGetVocationTier);
+	registerMethod("Player", "setVocationTier", LuaScriptInterface::luaPlayerSetVocationTier);
+	registerMethod("Player", "getVocationFragments", LuaScriptInterface::luaPlayerGetVocationFragments);
+	registerMethod("Player", "setVocationFragments", LuaScriptInterface::luaPlayerSetVocationFragments);
+	registerMethod("Player", "getCurrentVocation", LuaScriptInterface::luaPlayerGetCurrentVocation);
 
 
 	// registerMethod("Player", "setVocation", LuaScriptInterface::luaPlayerSetVocation);
@@ -2427,6 +2434,7 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Vocation", "getClientId", LuaScriptInterface::luaVocationGetClientId);
 	registerMethod("Vocation", "getName", LuaScriptInterface::luaVocationGetName);
 	registerMethod("Vocation", "getDescription", LuaScriptInterface::luaVocationGetDescription);
+	registerMethod("Vocation", "getBaseTier", LuaScriptInterface::luaVocationGetBaseTier);
 	registerMethod("Vocation", "getOutfit", LuaScriptInterface::luaVocationGetOutfit);
 
 	registerMethod("Vocation", "getRequiredSkillTries", LuaScriptInterface::luaVocationGetRequiredSkillTries);
@@ -8643,9 +8651,164 @@ int LuaScriptInterface::luaPlayerHasVocation(lua_State* L)
 	return 1;
 }
 
+int LuaScriptInterface::luaPlayerGetVocationStar(lua_State* L)
+{
+	// player:getVocationStar(id)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t vocId = getNumber<uint16_t>(L, 2);
+
+	Vocation* vocation = g_vocations.getVocation(vocId);
+	if (!vocation) {
+		pushBoolean(L, false);
+		return 1;
+	}
+
+	if (!player->hasVocation(vocId)) {
+		pushBoolean(L, false);
+		return 1;
+	}
+
+	lua_pushnumber(L, player->getVocationStar(vocId));
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerSetVocationStar(lua_State* L)
+{
+	// player:setVocationStar(id, star)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t vocId = getNumber<uint16_t>(L, 2);
+
+	Vocation* vocation = g_vocations.getVocation(vocId);
+	if (!vocation) {
+		pushBoolean(L, false);
+		return 1;
+	}
+
+	if (!player->hasVocation(vocId)) {
+		pushBoolean(L, false);
+		return 1;
+	}
+
+	player->setVocationStar(vocId, getNumber<uint16_t>(L, 3));
+	pushBoolean(L, true);
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerGetVocationTier(lua_State* L)
+{
+	// player:getVocationTier(id)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+	uint16_t vocId = getNumber<uint16_t>(L, 2);
+
+	Vocation* vocation = g_vocations.getVocation(vocId);
+	if (!vocation) {
+		pushBoolean(L, false);
+		return 1;
+	}
+
+	if (!player->hasVocation(vocId)) {
+		pushBoolean(L, false);
+		return 1;
+	}
+
+	lua_pushnumber(L, static_cast<uint16_t>(player->getVocationTier(vocId)));
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerSetVocationTier(lua_State* L)
+{
+	// player:setVocationTier(id, tier)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+	uint16_t vocId = getNumber<uint16_t>(L, 2);
+
+	Vocation* vocation = g_vocations.getVocation(vocId);
+	if (!vocation) {
+		pushBoolean(L, false);
+		return 1;
+	}
+
+	if (!player->hasVocation(vocId)) {
+		pushBoolean(L, false);
+		return 1;
+	}
+
+	uint16_t rawTier = getNumber<uint16_t>(L, 3);
+	tier_t tier = static_cast<tier_t>(rawTier);
+	player->setVocationTier(vocId, tier);
+	pushBoolean(L, true);
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerSetVocationFragments(lua_State* L)
+{
+	// player:setVocationFragments(id, frags)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t vocId = getNumber<uint16_t>(L, 2);
+
+	Vocation* vocation = g_vocations.getVocation(vocId);
+	if (!vocation) {
+		pushBoolean(L, false);
+		return 1;
+	}
+
+	uint32_t frags = getNumber<uint32_t>(L, 3);
+
+	if (!frags) {
+		pushBoolean(L, false);
+		return 1;
+	}
+	
+	player->setVocationFragments(vocId, frags);
+	pushBoolean(L, true);
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerGetVocationFragments(lua_State* L)
+{
+	// player:getVocationFragments(id)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+	uint16_t vocId = getNumber<uint16_t>(L, 2);
+
+	Vocation* vocation = g_vocations.getVocation(vocId);
+	if (!vocation) {
+		pushBoolean(L, false);
+		return 1;
+	}
+
+	lua_pushnumber(L, static_cast<uint32_t>(player->getVocationFragments(vocId)));
+	return 1;
+}
+
 int LuaScriptInterface::luaPlayerAddVocation(lua_State* L)
 {
-	// player:addVocation(id, level, exp)
+	// player:addVocation(id, level, star, tier, exp)
 	Player* player = getUserdata<Player>(L, 1);
 	if (!player) {
 		lua_pushnil(L);
@@ -8663,17 +8826,28 @@ int LuaScriptInterface::luaPlayerAddVocation(lua_State* L)
 		level = getNumber<int32_t>(L, 3);
 	}
 
+	uint16_t star = 0;
+	if (getNumber<int32_t>(L, 4)) {
+		star = getNumber<uint16_t>(L, 4);
+	}
+
+	tier_t tier = TIER_NONE;
+	if (getNumber<tier_t>(L, 5)) {
+		tier = getNumber<tier_t>(L, 5);
+	}
+
 	uint64_t experience = 0;
 	if (getNumber<uint64_t>(L, 3)) {
 		experience = getNumber<uint64_t>(L, 4);
 	}
+
 
 	if (!vocation) {
 		pushBoolean(L, false);
 		return 1;
 	}
 
-	player->addVocation(vocation->getId(), level, experience);
+	player->addVocation(vocation->getId(), level, experience, star, tier);
 	pushBoolean(L, true);
 	return 1;
 }
@@ -8706,11 +8880,17 @@ int LuaScriptInterface::luaPlayerGetVocationList(lua_State* L) {
 	int index = 0;
 	lua_createtable(L, player->vocations.size(), 0);
 	for (const PlayerVocation& vocation : player->vocations) {
-		lua_createtable(L, 0, 2);
+		if (player->hasVocation(vocation.vocationId)) {
+		lua_createtable(L, 0, 4);
 
 		setField(L, "vocationId", vocation.vocationId);
 		setField(L, "level", vocation.level);
-		lua_rawseti(L, -2, ++index);        
+		uint16_t tier = static_cast<uint16_t>(vocation.tier);
+		setField(L, "tier", tier);
+		setField(L, "star", vocation.star);
+		setField(L, "fragments", vocation.fragments);
+		lua_rawseti(L, -2, ++index); 
+		}
 	}
     return 1;
 }
@@ -10853,6 +11033,18 @@ int LuaScriptInterface::luaVocationGetDescription(lua_State* L)
 	Vocation* vocation = getUserdata<Vocation>(L, 1);
 	if (vocation) {
 		pushString(L, vocation->getVocDescription());
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaVocationGetBaseTier(lua_State* L)
+{
+	// vocation:getBaseTier()
+	Vocation* vocation = getUserdata<Vocation>(L, 1);
+	if (vocation) {
+		lua_pushnumber(L, static_cast<uint16_t>(vocation->getBaseTier()));
 	} else {
 		lua_pushnil(L);
 	}

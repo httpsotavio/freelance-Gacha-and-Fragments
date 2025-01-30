@@ -719,10 +719,12 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 
 	// load vocations
 	query.str(std::string());
-	query << "SELECT `player_id`, `vocation_id`, `level`, `experience` FROM `player_vocations` WHERE `player_id` = "<< player->getGUID() << " ORDER BY `level` DESC";
+	query << "SELECT `player_id`, `vocation_id`, `level`, `experience`, `tier`, `star`, `fragments` FROM `player_vocations` WHERE `player_id` = "<< player->getGUID() << " ORDER BY `level` DESC";
 	if ((result = db->storeQuery(query.str()))) {
 		do {
-			player->addVocation(result->getNumber<uint16_t>("vocation_id"), result->getNumber<uint32_t>("level"), result->getNumber<uint64_t>("experience"));
+			auto rawTier = result->getNumber<uint16_t>("tier");
+			tier_t tier = static_cast<tier_t>(rawTier);
+			player->addVocation(result->getNumber<uint16_t>("vocation_id"), result->getNumber<uint32_t>("level"), result->getNumber<uint64_t>("experience"), result->getNumber<uint16_t>("star"), tier, result->getNumber<uint32_t>("fragments"));
 		} while (result->next());
 	}
 
@@ -1101,9 +1103,9 @@ bool IOLoginData::savePlayer(Player* player)
 	}
 	query.str(std::string());
 
-	DBInsert vocationsQuery("INSERT INTO `player_vocations` (`player_id`, `vocation_id`, `level`, `experience`) VALUES ");
+	DBInsert vocationsQuery("INSERT INTO `player_vocations` (`player_id`, `vocation_id`, `level`, `experience`, `tier`, `star`, `fragments`) VALUES ");
 	for (const PlayerVocation& vocation : player->vocations) {
-		query << player->getGUID() << ',' << db->escapeString(std::to_string(vocation.vocationId)) << ',' << db->escapeString(std::to_string(vocation.level)) << ',' << db->escapeString(std::to_string(vocation.experience));
+		query << player->getGUID() << ',' << db->escapeString(std::to_string(vocation.vocationId)) << ',' << db->escapeString(std::to_string(vocation.level)) << ',' << db->escapeString(std::to_string(vocation.experience)) << "," << db->escapeString(std::to_string(vocation.tier)) << "," << db->escapeString(std::to_string(vocation.star)) << "," << db->escapeString(std::to_string(vocation.fragments));
 		if (!vocationsQuery.addRow(query)) {
 			return false;
 		}

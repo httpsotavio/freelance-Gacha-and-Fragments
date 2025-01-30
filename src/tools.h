@@ -27,6 +27,7 @@
 #include "enums.h"
 
 void printXMLError(const std::string& where, const std::string& fileName, const pugi::xml_parse_result& result);
+tier_t stringToTier(const std::string& str);
 
 std::string transformToSHA1(const std::string& input);
 std::string generateToken(const std::string& secret, uint32_t ticks);
@@ -88,6 +89,7 @@ uint8_t serverFluidToClient(uint8_t serverFluid);
 uint8_t clientFluidToServer(uint8_t clientFluid);
 
 itemAttrTypes stringToItemAttribute(const std::string& str);
+tier_t stringToTier(const std::string& str);
 
 const char* getReturnMessage(ReturnValue value);
 

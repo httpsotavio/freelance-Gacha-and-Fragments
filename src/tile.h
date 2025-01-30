@@ -208,6 +208,7 @@ class Tile : public Cylinder
 		inline bool hasFlag(uint32_t flag) const {
 			return hasBitSet(flag, this->flags);
 		}
+		
 		inline void setFlag(uint32_t flag) {
 			this->flags |= flag;
 		}

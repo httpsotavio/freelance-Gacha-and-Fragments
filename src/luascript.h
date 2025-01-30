@@ -907,6 +907,12 @@ class LuaScriptInterface
 		static int luaPlayerChangeVocation(lua_State* L);
 		static int luaPlayerGetVocationList(lua_State* L);
 		static int luaPlayerGetCurrentVocation(lua_State* L);
+		static int luaPlayerGetVocationStar(lua_State* L);
+		static int luaPlayerSetVocationStar(lua_State* L);
+		static int luaPlayerGetVocationTier(lua_State* L);
+		static int luaPlayerSetVocationTier(lua_State* L);
+		static int luaPlayerGetVocationFragments(lua_State* L);
+		static int luaPlayerSetVocationFragments(lua_State* L);
 
 		static int luaPlayerGetSex(lua_State* L);
 		static int luaPlayerSetSex(lua_State* L);
@@ -1097,6 +1103,8 @@ class LuaScriptInterface
 		static int luaVocationGetName(lua_State* L);
 		static int luaVocationGetDescription(lua_State* L);
 		static int luaVocationGetOutfit(lua_State* L);
+
+		static int luaVocationGetBaseTier(lua_State* L);
 
 		static int luaVocationGetRequiredSkillTries(lua_State* L);
 		static int luaVocationGetRequiredManaSpent(lua_State* L);

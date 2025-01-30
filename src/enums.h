@@ -27,6 +27,14 @@ enum BugReportType_t : uint8_t {
 	BUG_CATEGORY_OTHER = 3
 };
 
+enum tier_t : uint8_t {
+	TIER_NONE = 1,
+	TIER_BRONZE = 2,
+	TIER_SILVER = 3,
+	TIER_GOLD = 4,
+	TIER_DIAMOND = 5
+};
+
 enum ThreadState {
 	THREAD_STATE_RUNNING,
 	THREAD_STATE_CLOSING,

@@ -9,4 +9,5 @@
 	<event type="death" name="DropLoot" script="droploot.lua" />
 	<event type="extendedopcode" name="ExtendedOpcode" script="extendedopcode.lua" />
 	<event type="extendedopcode" name="ChangeCharacterExtended" script="ChangeCharacter/main.lua" />
+	<event type="extendedopcode" name="GachaExtended" script="gacha.lua" />
 </creaturescripts>
