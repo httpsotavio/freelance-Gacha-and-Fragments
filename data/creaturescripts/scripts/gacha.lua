@@ -23,15 +23,14 @@ function onExtendedOpcode(player, opcode, buffer)
     end
 
     if (action == "sortVocation") then
-      local sortedVocationId = getRandomVocation()
+      local sortedVocationId, fragmentCount = randomizeVocationInRotation()
       if (VocationsConfig[sortedVocationId]) then
         local keys = player:getStorageValue(10521)
         if (keys <= 0) then return true end
         local tab = VocationsConfig[sortedVocationId]
-        local count = (math.random(100) < 30) and 100 or 20
-        local retData = {name = tab.name, image = tab.imageName, count = count, keys = keys - 1}
+        local retData = {name = tab.name, image = tab.imageName, count = fragmentCount, keys = keys - 1}
         player:setStorageValue(10521, keys - 1)
-        player:setVocationFragments(sortedVocationId, player:getVocationFragments(sortedVocationId) + count)
+        player:setVocationFragments(sortedVocationId, player:getVocationFragments(sortedVocationId) + fragmentCount)
         player:sendExtendedOpcode(CODE, json.encode({action = "fetchVocationSort", data = retData}))
       end
   end

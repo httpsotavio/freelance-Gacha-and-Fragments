@@ -8881,15 +8881,20 @@ int LuaScriptInterface::luaPlayerGetVocationList(lua_State* L) {
 	lua_createtable(L, player->vocations.size(), 0);
 	for (const PlayerVocation& vocation : player->vocations) {
 		if (player->hasVocation(vocation.vocationId)) {
-		lua_createtable(L, 0, 4);
 
-		setField(L, "vocationId", vocation.vocationId);
-		setField(L, "level", vocation.level);
-		uint16_t tier = static_cast<uint16_t>(vocation.tier);
-		setField(L, "tier", tier);
-		setField(L, "star", vocation.star);
-		setField(L, "fragments", vocation.fragments);
-		lua_rawseti(L, -2, ++index); 
+		Vocation* voc = g_vocations.getVocation(vocation.vocationId);
+		if (voc) {
+
+			lua_createtable(L, 0, 4);
+
+			setField(L, "vocationId", vocation.vocationId);
+			setField(L, "level", vocation.level);
+			uint16_t tier = static_cast<uint16_t>(voc->getBaseTier());
+			setField(L, "tier", tier);
+			setField(L, "star", vocation.star);
+			setField(L, "fragments", vocation.fragments);
+			lua_rawseti(L, -2, ++index); 
+		}
 		}
 	}
     return 1;

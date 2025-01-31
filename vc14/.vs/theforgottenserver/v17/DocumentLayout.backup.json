@@ -50,8 +50,7 @@
               "ViewState": "AgIAABUAAAAAAAAAAAAAACQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-01-16T04:53:08.38Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -97,7 +96,7 @@
               "RelativeDocumentMoniker": "..\\src\\player.cpp",
               "ToolTip": "C:\\Users\\otavi\\Desktop\\forgottenserver-1.2m\\src\\player.cpp",
               "RelativeToolTip": "..\\src\\player.cpp",
-              "ViewState": "AgIAAEUPAAAAAAAAAAAjwFMPAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAEUPAAAAAAAAAAAjwFEPAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-01-25T07:19:45.028Z",
               "EditorCaption": ""
