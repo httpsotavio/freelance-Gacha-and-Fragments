@@ -118,6 +118,10 @@ bool Vocations::loadFromXml()
 			voc.baseTier = stringToTier(attr.as_string());
 		}
 
+		if ((attr = vocationNode.attribute("class"))) {
+			voc.vocationClass = stringToClass(attr.as_string());
+		}
+
 		for (auto childNode : vocationNode.children()) {
 			if (strcasecmp(childNode.name(), "skill") == 0) {
 				pugi::xml_attribute skillIdAttribute = childNode.attribute("id");

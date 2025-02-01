@@ -35,6 +35,15 @@ enum tier_t : uint8_t {
 	TIER_DIAMOND = 5
 };
 
+enum vocationClass_t : uint8_t {
+	CLASS_NONE = 1,
+	CLASS_TANK = 2,
+	CLASS_SUPPORT = 3,
+	CLASS_BRUISER = 4,
+	CLASS_SHOOTER = 5,
+	CLASS_FIGHTER = 6,
+};
+
 enum ThreadState {
 	THREAD_STATE_RUNNING,
 	THREAD_STATE_CLOSING,

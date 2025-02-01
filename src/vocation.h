@@ -94,6 +94,10 @@ class Vocation
 			return baseTier;
 		}
 
+		vocationClass_t getClass() {
+			return vocationClass;
+		}
+
 		float meleeDamageMultiplier = 1.0f;
 		float distDamageMultiplier = 1.0f;
 		float defenseMultiplier = 1.0f;
@@ -130,6 +134,7 @@ class Vocation
 		uint8_t clientId = 0;
 
 		tier_t baseTier = TIER_NONE;
+		vocationClass_t vocationClass = CLASS_NONE;
 
 		static uint32_t skillBase[SKILL_LAST + 1];
 };

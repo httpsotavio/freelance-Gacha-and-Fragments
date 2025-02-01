@@ -432,6 +432,9 @@ class Player final : public Creature, public Cylinder
 		}
 		bool isPremium() const;
 		void setPremiumDays(int32_t v);
+		bool gainVocationTierHPBonus();
+		bool gainVocationTierDEFBonus();
+		bool gainVocationTierATKBonus();
 
 		uint16_t getHelpers() const;
 
@@ -679,6 +682,9 @@ class Player final : public Creature, public Cylinder
 		int32_t getArmor() const final;
 		int32_t getDefense() const final;
 		float getAttackFactor() const final;
+		double getExtraDamage() const {
+			return extraDamage;
+		}
 		float getDefenseFactor() const final;
 
 		void addInFightTicks(bool pzlock = false);
@@ -1342,6 +1348,9 @@ class Player final : public Creature, public Cylinder
 		Town* town = nullptr;
 		Vocation* vocation = nullptr;
 		RewardChest* rewardChest = nullptr;
+
+		double protectionAll = 0.0;
+		double extraDamage = 1.0;
 
 		uint32_t inventoryWeight = 0;
 		uint32_t capacity = 40000;

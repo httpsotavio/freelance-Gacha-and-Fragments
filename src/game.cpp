@@ -4052,6 +4052,9 @@ bool Game::combatChangeHealth(Creature* attacker, Creature* target, CombatDamage
 				tmpDamage.primary.value = (damage.primary.value * attackerPlayer->getSkillLevel(SKILL_MANA_LEECH_AMOUNT)) / 100;
 				Combat::doCombatMana(nullptr, attackerPlayer, tmpDamage, tmpParams);
 			}
+
+			// extra damage
+			damage.primary.value = damage.primary.value * attackerPlayer->getExtraDamage();
 		}
 
 		TextMessage message;

@@ -57,7 +57,7 @@ bool Outfits::loadFromXml()
 		}
 
 		std::vector<int32_t> vocations;
-		if (attr = outfitNode.attribute("vocation")) {
+		if ((attr = outfitNode.attribute("vocation"))) {
 			vocations = vectorAtoi(explodeString(attr.as_string(), ","));
 		}
 

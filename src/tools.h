@@ -28,6 +28,7 @@
 
 void printXMLError(const std::string& where, const std::string& fileName, const pugi::xml_parse_result& result);
 tier_t stringToTier(const std::string& str);
+vocationClass_t stringToClass(const std::string& str);
 
 std::string transformToSHA1(const std::string& input);
 std::string generateToken(const std::string& secret, uint32_t ticks);

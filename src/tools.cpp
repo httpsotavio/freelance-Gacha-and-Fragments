@@ -959,6 +959,26 @@ tier_t stringToTier(const std::string& str)
 	return TIER_NONE;
 }
 
+vocationClass_t stringToClass(const std::string& str)
+{
+	if (str == "tank") {
+		return CLASS_TANK;
+	}	
+	if (str == "support") {
+		return CLASS_SUPPORT;
+	}	
+	if (str == "fighter") {
+		return CLASS_FIGHTER;
+	}		
+	if (str == "shooter") {
+		return CLASS_SHOOTER;
+	}	
+	if (str == "bruiser") {
+		return CLASS_BRUISER;
+	}
+	return CLASS_NONE;
+}
+
 itemAttrTypes stringToItemAttribute(const std::string& str)
 {
 	if (str == "aid") {

@@ -10,8 +10,6 @@ function onExtendedOpcode(player, opcode, buffer)
       end
     )
 
-    -- local pid = player:getId()
-
     if not status then
       return false
     end
@@ -41,6 +39,29 @@ function onExtendedOpcode(player, opcode, buffer)
       local fragmentsc = tonumber(math.floor(player:getVocationFragments(id))) 
       local costc = getFragmentsCostToUpgradeStar(starc) or 0
       if (costc ~= 0 and fragmentsc >= costc) then
+        local canUpgrade = true
+        local costToUpgrade = getCostToUpgradeStar(starc)
+        if (costToUpgrade) then
+          if (player:getMoney() < costToUpgrade.money) then canUpgrade = false end
+          if (costToUpgrade.items) then
+            for itemId, count in pairs(costToUpgrade.items) do
+              if (player:getItemCount(itemId) < count) then canUpgrade = false end
+            end
+          end
+
+          if (not canUpgrade) then
+            player:sendTextMessage(MESSAGE_STATUS_CONSOLE_RED, "Você não tem os requisitos.")
+            return true
+          end
+
+          player:removeMoney(costToUpgrade.money)
+          if (costToUpgrade.items) then
+            for itemId, count in pairs(costToUpgrade.items) do
+              player:removeItem(itemId, count)
+            end
+          end
+        end
+
         player:setVocationFragments(id, fragmentsc - costc)
         player:setVocationStar(id, starc + 1)
         player:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
@@ -75,16 +96,33 @@ function Player.sendVocationList(self, filter)
         if (fragmentsc >= costc) then canUpgradeStarsc = true end
       end
     end
+    local costToUpgrade = getCostToUpgradeStar(starc)
+    local costToUpgradeTooltip = {}
+    if (costToUpgrade) then
+      table.insert(costToUpgradeTooltip, tonumber(costToUpgrade.money) .. " gold pieces\n")
+      if (costToUpgrade.items) then
+        table.insert(costToUpgradeTooltip, "Items: ")
+        local index = 1
+        for itemId, count in pairs(costToUpgrade.items) do
+          local it = ItemType(itemId)
+          if (it) then
+            table.insert(costToUpgradeTooltip, count .. " " .. it:getName() .. (index < #costToUpgrade.items and "| " or ""))
+          end
+          index = index + 1
+        end
+      end
+    end
+
     local voc = Vocation(id)
     if (voc and VocationsConfig[id]) then
       if (filter) then
         local tab = VocationsConfig[id]
 
         if (filter == tab.class) then
-          table.insert(retData, {vocId = id, lvl = level, name = voc:getName(), star = starc, tier = tierc, fragments = fragmentsc, canUpgradeStars = canUpgradeStarsc, cost = costc})
+          table.insert(retData, {vocId = id, lvl = level, name = voc:getName(), star = starc, tier = tierc, fragments = fragmentsc, canUpgradeStars = canUpgradeStarsc, cost = costc, costTooltip = table.concat(costToUpgradeTooltip)})
         end
       else
-        table.insert(retData, {vocId = id, lvl = level, name = voc:getName(), star = starc, tier = tierc, fragments = fragmentsc, canUpgradeStars = canUpgradeStarsc, cost = costc})
+        table.insert(retData, {vocId = id, lvl = level, name = voc:getName(), star = starc, tier = tierc, fragments = fragmentsc, canUpgradeStars = canUpgradeStarsc, cost = costc, costTooltip = table.concat(costToUpgradeTooltip)})
       end
     end
   end

@@ -22,6 +22,7 @@
 #include <bitset>
 
 #include "bed.h"
+#include "bonus.h"
 #include "chat.h"
 #include "combat.h"
 #include "configmanager.h"
@@ -1938,6 +1939,11 @@ BlockType_t Player::blockHit(Creature* attacker, CombatType_t combatType, int32_
 			}
 		}
 
+		if (protectionAll > 0) {
+			std::cout << "tomou menos dano pelo protection" << std::endl;
+			damage -= std::round(damage * (protectionAll / 100.));
+		}
+
 		if (damage <= 0) {
 			damage = 0;
 			blockType = BLOCK_ARMOR;
@@ -3822,16 +3828,20 @@ bool Player::changeVocation(uint16_t vocId)
 
 				healthMax = 0;
 				manaMax = 0;
-				int32_t it = 0;
-				while (it <= level) {
-					++it;
+				uint32_t iterator = 0;
+				while (iterator <= level) {
+					++iterator;
 					healthMax = std::max<int32_t>(0, healthMax + newVoc->getHPGain());
 					manaMax = std::max<int32_t>(0, manaMax + newVoc->getManaGain());
 				}
-				
+
 				setVocation(vocId);
-				health = getMaxHealth();
-				mana = getMaxMana();
+				gainVocationTierHPBonus();
+
+				protectionAll = 0;
+				gainVocationTierDEFBonus();
+				extraDamage = 0;
+				gainVocationTierATKBonus();
 				sendSkills();
 				sendStats();
 				updateBaseSpeed();
@@ -3843,6 +3853,7 @@ bool Player::changeVocation(uint16_t vocId)
 				if (!outfit) {
 					return true;
 				}
+
 				Outfit_t newOutfit;
 				newOutfit.lookType = outfit->lookType;
 				defaultOutfit = newOutfit;
@@ -3852,6 +3863,123 @@ bool Player::changeVocation(uint16_t vocId)
 			}
     	}
 	}
+	return true;
+}
+
+bool Player::gainVocationTierHPBonus()
+{
+	vocationClass_t vocationClass = vocation->getClass();
+	if (vocationClass == CLASS_NONE) {
+		return false;
+	}
+	tier_t vocationTier = vocation->getBaseTier();
+	if (vocationTier == TIER_NONE) {
+		return false;
+	}
+	uint16_t vocationStars = getVocationStar(vocation->getId());
+	if (vocationStars < 1 || vocationStars > 5) {
+		return false;
+	}
+
+	auto classIt = tierHPBonusData.find(vocationClass);
+	if (classIt != tierHPBonusData.end()) {
+		auto tierIt = classIt->second.find(vocationTier);
+		if (tierIt != classIt->second.end()) {
+			auto starsIt = tierIt->second.find(vocationStars);
+			if (starsIt != tierIt->second.end()) {
+				double multiplier = starsIt->second;
+				healthMax = std::max<int32_t>(0, static_cast<int32_t>(healthMax * multiplier));
+			} else {
+				std::cout << ">> gainVocationTierHPBonus: Vocation stars not found." << std::endl;
+				return false;
+			}
+		} else {
+			std::cout << ">> gainVocationTierHPBonus: Vocation tier not found." << std::endl;
+			return false;
+		}
+	} else {
+		std::cout << ">> gainVocationTierHPBonus: Vocation class not found." << std::endl;
+		return false;
+	}
+
+	return true;
+}
+
+bool Player::gainVocationTierDEFBonus()
+{
+	vocationClass_t vocationClass = vocation->getClass();
+	if (vocationClass == CLASS_NONE) {
+		return false;
+	}
+	tier_t vocationTier = vocation->getBaseTier();
+	if (vocationTier == TIER_NONE) {
+		return false;
+	}
+	uint16_t vocationStars = getVocationStar(vocation->getId());
+	if (vocationStars < 1 || vocationStars > 5) {
+		return false;
+	}
+
+	auto classIt = tierDEFBonusData.find(vocationClass);
+	if (classIt != tierDEFBonusData.end()) {
+		auto tierIt = classIt->second.find(vocationTier);
+		if (tierIt != classIt->second.end()) {
+			auto starsIt = tierIt->second.find(vocationStars);
+			if (starsIt != tierIt->second.end()) {
+				double multiplier = starsIt->second;
+				protectionAll = multiplier;
+			} else {
+				std::cout << ">> gainVocationTierHPBonus: Vocation stars not found." << std::endl;
+				return false;
+			}
+		} else {
+			std::cout << ">> gainVocationTierHPBonus: Vocation tier not found." << std::endl;
+			return false;
+		}
+	} else {
+		std::cout << ">> gainVocationTierHPBonus: Vocation class not found." << std::endl;
+		return false;
+	}
+
+	return true;
+}
+
+bool Player::gainVocationTierATKBonus()
+{
+	vocationClass_t vocationClass = vocation->getClass();
+	if (vocationClass == CLASS_NONE) {
+		return false;
+	}
+	tier_t vocationTier = vocation->getBaseTier();
+	if (vocationTier == TIER_NONE) {
+		return false;
+	}
+	uint16_t vocationStars = getVocationStar(vocation->getId());
+	if (vocationStars < 1 || vocationStars > 5) {
+		return false;
+	}
+
+	auto classIt = tierATKBonusData.find(vocationClass);
+	if (classIt != tierATKBonusData.end()) {
+		auto tierIt = classIt->second.find(vocationTier);
+		if (tierIt != classIt->second.end()) {
+			auto starsIt = tierIt->second.find(vocationStars);
+			if (starsIt != tierIt->second.end()) {
+				double multiplier = starsIt->second;
+				extraDamage = multiplier;
+			} else {
+				std::cout << ">> gainVocationTierHPBonus: Vocation stars not found." << std::endl;
+				return false;
+			}
+		} else {
+			std::cout << ">> gainVocationTierHPBonus: Vocation tier not found." << std::endl;
+			return false;
+		}
+	} else {
+		std::cout << ">> gainVocationTierHPBonus: Vocation class not found." << std::endl;
+		return false;
+	}
+
 	return true;
 }
 
